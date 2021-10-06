@@ -1,0 +1,7 @@
+<TextBox x:Name="StudName" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0" Width="100" Height="25" ></TextBox>
+        <TextBox x:Name="StudGroup" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" Width="100" Height="25" ></TextBox>
+        <TextBox x:Name="StudLogin" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 100 0 0" Width="100" Height="25" ></TextBox>
+        <TextBox x:Name="StudPassword" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 150 0 0" Width="100" Height="25" ></TextBox>
+        <Button x:Name="Регистрация" Content="Регистрация" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 250 0 0" Width="100" Height="25" ></Button>
+        <Button Content="Группа" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65 10 0 0" Width="56" Height="25" ></Button>
+        
