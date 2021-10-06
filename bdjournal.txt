@@ -1,0 +1,160 @@
+CREATE TABLE "Специальность" (
+	"НомерСпец" integer NOT NULL,
+	"Наименование" varchar(40) NOT NULL,
+	CONSTRAINT "Специальность_pk" PRIMARY KEY ("НомерСпец")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "Группа" (
+	"НомерГруппы" integer NOT NULL,
+	"НомерСпец" integer NOT NULL,
+	"Курс" integer NOT NULL,
+	CONSTRAINT "Группа_pk" PRIMARY KEY ("НомерГруппы")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "СпецПредмет" (
+	"НомерСпец" integer NOT NULL,
+	"НомерПредмета" integer NOT NULL,
+	CONSTRAINT "СпецПредмет_pk" PRIMARY KEY ("НомерСпец","НомерПредмета")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "Предмет" (
+	"НомерПредмета" integer NOT NULL,
+	"Наименование" integer NOT NULL,
+	CONSTRAINT "Предмет_pk" PRIMARY KEY ("НомерПредмета")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "Преподователи" (
+	"НомерПрепода" integer NOT NULL,
+	"Имя" varchar(30) NOT NULL,
+	"Фамилия" varchar(30) NOT NULL,
+	"Рользователь" integer NOT NULL,
+	CONSTRAINT "Преподователи_pk" PRIMARY KEY ("НомерПрепода")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "ПреподыПредметы" (
+	"НомерПрепода" integer NOT NULL,
+	"НомерПредмета" integer NOT NULL,
+	CONSTRAINT "ПреподыПредметы_pk" PRIMARY KEY ("НомерПрепода","НомерПредмета")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "Журнал" (
+	"Предмет" integer NOT NULL,
+	"Преподователь" integer NOT NULL,
+	"НомерСтудента" integer,
+	"НомерГруппы" integer,
+	"Дата" DATE,
+	"Оценка" integer,
+	CONSTRAINT "Журнал_pk" PRIMARY KEY ("НомерСтудента","НомерГруппы")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "Расписание" (
+	"Дата" DATE NOT NULL,
+	"Группа" integer NOT NULL,
+	"Предмет" integer NOT NULL,
+	"Преподователь" integer NOT NULL,
+	"НомерПары" integer NOT NULL,
+	"Кабинет" integer NOT NULL,
+	CONSTRAINT "Расписание_pk" PRIMARY KEY ("Дата","Группа","Предмет")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "Студент" (
+	"НомерСтудента" integer NOT NULL,
+	"НомерГруппы" integer NOT NULL,
+	"Имя" varchar(40) NOT NULL,
+	"Фамилия" varchar(40) NOT NULL,
+	"НомерПользователя" integer NOT NULL,
+	CONSTRAINT "Студент_pk" PRIMARY KEY ("НомерСтудента")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "Роли" (
+	"НомерРоли" integer NOT NULL,
+	"Наименование" varchar(40) NOT NULL,
+	CONSTRAINT "Роли_pk" PRIMARY KEY ("НомерРоли")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+CREATE TABLE "Пользователь" (
+	"НомерПользователя" integer NOT NULL,
+	"Логин" varchar(255) NOT NULL,
+	"Пароль" varchar(50) NOT NULL,
+	"Роль" integer NOT NULL,
+	CONSTRAINT "Пользователь_pk" PRIMARY KEY ("НомерПользователя")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
+
+ALTER TABLE "Группа" ADD CONSTRAINT "Группа_fk0" FOREIGN KEY ("НомерСпец") REFERENCES "Специальность"("НомерСпец");
+
+ALTER TABLE "СпецПредмет" ADD CONSTRAINT "СпецПредмет_fk0" FOREIGN KEY ("НомерСпец") REFERENCES "Специальность"("НомерСпец");
+ALTER TABLE "СпецПредмет" ADD CONSTRAINT "СпецПредмет_fk1" FOREIGN KEY ("НомерПредмета") REFERENCES "Предмет"("НомерПредмета");
+
+
+ALTER TABLE "Преподователи" ADD CONSTRAINT "Преподователи_fk0" FOREIGN KEY ("Рользователь") REFERENCES "Пользователь"("НомерПользователя");
+
+ALTER TABLE "ПреподыПредметы" ADD CONSTRAINT "ПреподыПредметы_fk0" FOREIGN KEY ("НомерПрепода") REFERENCES "Преподователи"("НомерПрепода");
+
+ALTER TABLE "Журнал" ADD CONSTRAINT "Журнал_fk0" FOREIGN KEY ("Преподователь") REFERENCES "Преподователи"("НомерПрепода");
+ALTER TABLE "Журнал" ADD CONSTRAINT "Журнал_fk1" FOREIGN KEY ("НомерСтудента") REFERENCES "Студент"("НомерСтудента");
+
+ALTER TABLE "Расписание" ADD CONSTRAINT "Расписание_fk0" FOREIGN KEY ("Группа") REFERENCES "Группа"("НомерГруппы");
+ALTER TABLE "Расписание" ADD CONSTRAINT "Расписание_fk1" FOREIGN KEY ("Предмет") REFERENCES "Предмет"("НомерПредмета");
+ALTER TABLE "Расписание" ADD CONSTRAINT "Расписание_fk2" FOREIGN KEY ("Преподователь") REFERENCES "Преподователи"("НомерПрепода");
+
+ALTER TABLE "Студент" ADD CONSTRAINT "Студент_fk0" FOREIGN KEY ("НомерГруппы") REFERENCES "Группа"("НомерГруппы");
+ALTER TABLE "Студент" ADD CONSTRAINT "Студент_fk1" FOREIGN KEY ("НомерПользователя") REFERENCES "Пользователь"("НомерПользователя");
+
+
+ALTER TABLE "Пользователь" ADD CONSTRAINT "Пользователь_fk0" FOREIGN KEY ("Роль") REFERENCES "Роли"("НомерРоли");
+
+
+
+
+
+
+
+
+
+
+
